@@ -24,9 +24,7 @@ private:
         : gen_(rd_())
     {
         memset(card_map_, 0, sizeof(card_map_));
-        init_attributes();
     }
-    void init_attributes();
     inline U16 gen_idx() { return dist_(gen_); }
 private:
     static const U16 SELECT_LIMIT = 3U;
@@ -38,6 +36,9 @@ private:
     const int16_t O_FILLER = N_NUM;
     const int16_t O_COLOR = O_FILLER + N_FILLER;
     const int16_t O_SHAPE = O_COLOR + N_COLOR;
+    const int16_t T_FILLER = N_NUM;
+    const int16_t T_COLOR = T_FILLER * N_FILLER;
+    const int16_t T_SHAPE = T_COLOR * N_COLOR;
     static_assert(N_SHAPE + N_COLOR + N_FILLER + N_NUM <= 16U, "attributes too much!");
     static_assert(CARD_NUM <= ((1 << 16) - 1), "cards too much");
 private:
@@ -45,7 +46,6 @@ private:
     std::mt19937 gen_;
     std::uniform_int_distribution<U16> dist_ {0, CARD_NUM - 1};
     bool card_map_[CARD_NUM];
-    U16 attributes_[CARD_NUM];
 };
 
 #endif // CARD_BUTTON_MGR_H
